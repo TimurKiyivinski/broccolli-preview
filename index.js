@@ -3,6 +3,8 @@
 const fs = require('fs')
 
 const express = require('express')
+const http = require('http')
+const socket = require('socket.io')
 const bodyParser = require('body-parser')
 const expressSanitizer = require('express-sanitizer')
 const cors = require('cors')
@@ -11,12 +13,16 @@ const webpack = require('webpack')
 const webpackDevMiddleware = require('webpack-dev-middleware')
 const webpackHotMiddleware = require('webpack-hot-middleware')
 
+const ffmpeg = require('fluent-ffmpeg')
+
 ;(function () {
   // Environment
   const env = JSON.parse(fs.readFileSync('env.json', 'utf8'))
 
   // Create express application
   const app = express()
+  const server = http.createServer(app)
+  const io = socket(server)
   // Load third party express middlewares
   app.use(bodyParser.json()) // Parse data sent to Express
   app.use(bodyParser.urlencoded({ extended: true }))
@@ -45,11 +51,25 @@ const webpackHotMiddleware = require('webpack-hot-middleware')
     next()
   })
 
-  app.get('/v1/fruits', (req, res) => {
-    res.json({
-      err: false,
-      fruits: ['Apple', 'Orange', 'Pear', 'Grape']
-    })
+  io.on('connection', (socket) => {
+    socket.emit('greeting', { hello: 'world' })
+  })
+
+  const fStream = fs.createWriteStream('Webcam.webm', { flags: 'a' })
+
+  const command = ffmpeg()
+    .input('/dev/video0')
+    .fps(24)
+    .audioCodec('libvorbis')
+    .videoCodec('libvpx')
+    .outputFormat('webm')
+
+  const ffstream = command.pipe()
+  ffstream.on('data', chunk => {
+    console.log(`Received ${chunk.length} with encoding`)
+    const timeBuffer = Buffer.from([new Date().getTime()])
+    const concatBuffer = Buffer.concat([timeBuffer, chunk])
+    io.sockets.emit('Webcam', chunk)
   })
 
   // Frontend files such as index.html and webpack's bundle.js
@@ -63,5 +83,5 @@ const webpackHotMiddleware = require('webpack-hot-middleware')
   })
 
   // Start Express
-  app.listen(process.env.PORT || env.port)
+  server.listen(process.env.PORT || env.port)
 })()

@@ -22,9 +22,13 @@
     "body-parser": "^1.15.2",
     "bootstrap": "^4.0.0-alpha.5",
     "cors": "^2.8.1",
+    "cycle-socket.io": "^3.0.1",
     "cyclic-router": "^3.0.1",
     "express": "^4.14.0",
     "express-sanitizer": "^1.0.1",
+    "fluent-ffmpeg": "^2.1.0",
+    "socket.io": "^1.7.2",
+    "socket.io-client": "^1.7.2",
     "switch-path": "^1.2.0",
     "xstream": "^9.3.0"
   },

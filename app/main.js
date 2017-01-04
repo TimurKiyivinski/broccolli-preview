@@ -3,8 +3,10 @@ import switchPath from 'switch-path'
 import Cycle from '@cycle/xstream-run'
 import { makeHTTPDriver } from '@cycle/http'
 import { makeRouterDriver } from 'cyclic-router'
+import { makeSocketIODriver } from 'cycle-socket.io'
 import { div, nav, h1, a, ul, li, makeDOMDriver } from '@cycle/dom'
 import { createHistory } from 'history'
+import io from 'socket.io-client'
 
 // Components
 import HomeComponent from './components/home'
@@ -32,6 +34,7 @@ const main = sources => {
   const view$ = page$.map(v => v.DOM || xs.never()).flatten()
   const http$ = page$.map(v => v.HTTP || xs.never()).flatten()
   const route$ = page$.map(v => v.router || xs.never()).flatten()
+  const socketIO$ = page$.map(v => v.socketIO || xs.never()).flatten()
 
   // Create a main page
 
@@ -64,7 +67,8 @@ const main = sources => {
   const sinks = {
     DOM: vdom$,
     HTTP: http$,
-    router: router$
+    router: router$,
+    socketIO: socketIO$
   }
 
   return sinks
@@ -73,7 +77,8 @@ const main = sources => {
 const drivers = {
   DOM: makeDOMDriver('#app-container'),
   HTTP: makeHTTPDriver(),
-  router: makeRouterDriver(createHistory(), switchPath)
+  router: makeRouterDriver(createHistory(), switchPath),
+  socketIO: makeSocketIODriver(io(window.location.origin))
 }
 
 Cycle.run(main, drivers)

@@ -1,18 +1,18 @@
+import xs from 'xstream'
 import { div, p, input } from '@cycle/dom'
 
 const HomeComponent = sources => {
-  // Get events from .input-name as stream
-  const name$ = sources.DOM.select('.input-name')
-    .events('input')
-    .map(event => event.target.value)
-    .startWith('Input something into the field below') // Begin with an initial value for the stream
+  const greetingSocket$ = sources.socketIO.get('Webcam')
 
-  const vdom$ = name$.map(data => div('.card .card-inverse .card-primary', [
-    div('.card-block', [
-      p('.card-text', data), // Assign value from input as text
-      input('.form-control .input-name') // Take note of the .input-name class
+  const vdom$ = greetingSocket$.map(data => {
+    const base64 = btoa(String.fromCharCode(...new Uint8Array(data)))
+
+    return div('.card .card-inverse .card-primary', [
+      div('.card-block', [
+        p('.card-text', base64), // Assign value from input as text
+      ])
     ])
-  ]))
+  })
 
   return {
     DOM: vdom$
