@@ -55,21 +55,19 @@ const ffmpeg = require('fluent-ffmpeg')
     socket.emit('greeting', { hello: 'world' })
   })
 
-  const fStream = fs.createWriteStream('Webcam.webm', { flags: 'a' })
-
   const command = ffmpeg()
     .input('/dev/video0')
     .fps(24)
-    .audioCodec('libvorbis')
-    .videoCodec('libvpx')
-    .outputFormat('webm')
+    .outputOptions('-updatefirst', '1', '-f', 'image2', '-y')
 
   const ffstream = command.pipe()
   ffstream.on('data', chunk => {
     console.log(`Received ${chunk.length} with encoding`)
-    const timeBuffer = Buffer.from([new Date().getTime()])
-    const concatBuffer = Buffer.concat([timeBuffer, chunk])
-    io.sockets.emit('Webcam', chunk)
+    const frame = {
+      date: new Date(),
+      chunk: chunk
+    }
+    io.sockets.emit('Webcam', frame)
   })
 
   // Frontend files such as index.html and webpack's bundle.js
