@@ -1,7 +1,7 @@
 {
-  "name": "express-webpack-boilerplate",
+  "name": "broccolli-node",
   "version": "1.0.0",
-  "description": "A simple Express + Webpack boilerplate application",
+  "description": "Broccolli Node Example",
   "main": "index.js",
   "scripts": {
     "start": "nodemon index.js",
@@ -50,10 +50,10 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/TimurKiyivinski/express-webpack-boilerplate.git"
+    "url": "git+https://github.com/TimurKiyivinski/broccolli-node.git"
   },
   "bugs": {
-    "url": "https://github.com/TimurKiyivinski/express-webpack-boilerplate/issues"
+    "url": "https://github.com/TimurKiyivinski/broccolli-node/issues"
   },
-  "homepage": "https://github.com/TimurKiyivinski/express-webpack-boilerplate#readme"
+  "homepage": "https://github.com/TimurKiyivinski/broccolli-node#readme"
 }
