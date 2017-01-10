@@ -70,6 +70,7 @@ const ffmpeg = require('fluent-ffmpeg')
     const ffstream = command.pipe()
     ffstream.on('data', chunk => {
       const frame = {
+        name: camera.name,
         date: new Date(),
         chunk: chunk
       }

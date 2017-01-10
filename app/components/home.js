@@ -1,4 +1,5 @@
 import xs from 'xstream'
+import throttle from 'xstream/extra/throttle'
 import { div, p, img } from '@cycle/dom'
 import { encode } from 'base64-arraybuffer'
 
@@ -17,7 +18,7 @@ const HomeComponent = sources => {
 
   const getStreamSocket$ = getStream$.map(data => xs.combine(...data.streams.map(
     stream => sources.socketIO.get(stream)
-  ))).flatten()
+  )).compose(throttle(33))).flatten()
 
   const vdom$ = getStreamSocket$.map(([...data]) => {
     const streamsDOM = data.map(stream => {
