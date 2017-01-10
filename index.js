@@ -55,19 +55,26 @@ const ffmpeg = require('fluent-ffmpeg')
     socket.emit('greeting', { hello: 'world' })
   })
 
-  const command = ffmpeg()
-    .input('/dev/video0')
-    .fps(24)
-    .outputOptions('-updatefirst', '1', '-f', 'image2', '-y')
+  app.get('/v2/streams', (req, res) => res.json({
+    err: false,
+    streams: env.cameras.map(camera => camera.name)
+  }))
 
-  const ffstream = command.pipe()
-  ffstream.on('data', chunk => {
-    console.log(`Received ${chunk.length} with encoding`)
-    const frame = {
-      date: new Date(),
-      chunk: chunk
-    }
-    io.sockets.emit('Webcam', frame)
+  // Create ffmpeg processor for each camera
+  env.cameras.map(camera => {
+    const command = ffmpeg()
+      .input(camera.stream)
+      .fps(5)
+      .outputOptions('-updatefirst', '1', '-f', 'image2', '-y')
+
+    const ffstream = command.pipe()
+    ffstream.on('data', chunk => {
+      const frame = {
+        date: new Date(),
+        chunk: chunk
+      }
+      io.sockets.emit(camera.name, frame)
+    })
   })
 
   // Frontend files such as index.html and webpack's bundle.js

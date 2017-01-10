@@ -40,7 +40,7 @@ const main = sources => {
 
   // Navigation bar
   const nav$ = xs.of(nav('.navbar .navbar-fixed-top .navbar-dark .bg-inverse', [
-    h1('.navbar-brand', 'express-webpack-cycle-boilerplate'),
+    h1('.navbar-brand', 'broccolli-node'),
     ul('.nav .navbar-nav', [
       li('.nav-item', [a('.home .nav-link', { href: '#' }, 'Home')]),
       li('.nav-item', [a('.http .nav-link', { href: '#' }, 'Http Example')])
