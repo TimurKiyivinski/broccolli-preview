@@ -64,7 +64,7 @@ const ffmpeg = require('fluent-ffmpeg')
   env.cameras.map(camera => {
     const command = ffmpeg()
       .input(camera.stream)
-      .fps(5)
+      .fps(camera.fps)
       .outputOptions('-updatefirst', '1', '-f', 'image2', '-y')
 
     const ffstream = command.pipe()
