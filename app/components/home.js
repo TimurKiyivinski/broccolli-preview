@@ -1,11 +1,8 @@
-/* global btoa */
-
 import xs from 'xstream'
 import { div, p, img } from '@cycle/dom'
 import { encode } from 'base64-arraybuffer'
 
 const HomeComponent = sources => {
-  // const chunkToBase64 = chunk => `data:image/jpeg;base64,${btoa(String.fromCharCode(...new Uint8Array(chunk)))}`
   const chunkToBase64 = chunk => `data:image/jpeg;base64,${encode(chunk)}`
 
   const camera$ = xs.of({
