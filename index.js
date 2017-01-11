@@ -66,6 +66,12 @@ const ffmpeg = require('fluent-ffmpeg')
       .input(camera.stream)
       .fps(camera.fps)
       .outputOptions('-updatefirst', '1', '-f', 'image2', '-y')
+      .on('error', (err, stdout, stderr) => {
+        console.error(`Camera ${camera.name} failed because ${err.message}`)
+      })
+      .on('end', (stdout, stderr) => {
+        console.warning(`Camera ${camera.name} ended`)
+      })
 
     const ffstream = command.pipe()
     ffstream.on('data', chunk => {
