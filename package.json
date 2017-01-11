@@ -1,7 +1,7 @@
 {
-  "name": "broccolli-node",
+  "name": "broccolli-preview",
   "version": "1.0.0",
-  "description": "Broccolli Node Example",
+  "description": "A open-source preview of Broccolli",
   "main": "index.js",
   "scripts": {
     "start": "nodemon index.js",
@@ -50,10 +50,10 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/TimurKiyivinski/broccolli-node.git"
+    "url": "git+https://github.com/TimurKiyivinski/broccolli-preview.git"
   },
   "bugs": {
-    "url": "https://github.com/TimurKiyivinski/broccolli-node/issues"
+    "url": "https://github.com/TimurKiyivinski/broccolli-preview/issues"
   },
-  "homepage": "https://github.com/TimurKiyivinski/broccolli-node#readme"
+  "homepage": "https://github.com/TimurKiyivinski/broccolli-preview#readme"
 }
