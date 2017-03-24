@@ -21,7 +21,7 @@
     "@cycle/xstream-run": "^4.2.0",
     "base64-arraybuffer": "^0.1.5",
     "body-parser": "^1.15.2",
-    "bootstrap": "^4.0.0-alpha.5",
+    "bootstrap": "4.0.0-alpha.5",
     "cors": "^2.8.1",
     "cycle-socket.io": "^3.0.1",
     "cyclic-router": "^3.0.1",
